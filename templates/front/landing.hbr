@@ -1,3 +1,12 @@
 <main>
-
+  <div
+    class="text-white text-center py-5"
+    style="background-image: url('{{URL}}/images/banner/{{mainPageData.bannerImg}}');background-size: cover; background-position: center;"
+  >
+    <div class="container">
+      <h1 class="display-4">Welcome to My Portfolio</h1>
+      <p class="lead">Showcasing my projects and skills</p>
+      <a href="#projects" class="btn btn-primary">View My Work</a>
+    </div>
+  </div>
 </main>

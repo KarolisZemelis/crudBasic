@@ -124,8 +124,6 @@ const upload = multer(
 
 )
 
-
-
 //USE MIDDLEWARE and libraries?
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -141,8 +139,13 @@ app.use(auth);
 //ROUTES
 //MAIN PAGE FRONT
 app.get("/", (req, res) => {
+    let mainPageData = fs.readFileSync('./data/mainPage.json', 'utf8');
+    mainPageData = JSON.parse(mainPageData);
+    console.log(mainPageData)
     const data = {
         pageTitle: "CRUD basic",
+        message: req.user.message || null,
+        mainPageData
     }
 
     const html = makeHtml(data, "landing", false);
