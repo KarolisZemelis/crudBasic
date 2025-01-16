@@ -1,0 +1,30 @@
+<form action="createMain" method="POST" enctype="multipart/form-data">
+  <div class="row">
+    <div class="row">
+      <input
+        type="text"
+        class="form-control"
+        name="name"
+        placeholder="name"
+        aria-label="First name"
+      />
+    </div>
+    <div class="row">
+      <textarea
+        class="form-control"
+        aria-label="text"
+        name="text"
+        rows="3"
+        placeholder="text"
+      ></textarea>
+    </div>
+    <div>
+
+      <div class="form-bin">
+        <label for="formFile" class="form-label">Baneris</label>
+        <input class="form-control" type="file" name="bannerImg" />
+      </div>
+    </div>
+  </div>
+  <button type="submit" class="btn btn-primary">Primary</button>
+</form>

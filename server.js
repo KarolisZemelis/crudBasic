@@ -6,8 +6,28 @@ const handlebars = require("handlebars");
 const { v4: uuidv4 } = require("uuid");
 const md5 = require("md5");
 const cookieParser = require("cookie-parser");
+const multer = require('multer');
 const URL = "http://localhost:3003/";
 
+//picture upload settings NOT helper
+const storage = multer.diskStorage({
+
+    destination: function (req, file, cb) {
+        let folder = 'default';
+        if (file.fieldname === 'bannerImg') {
+            folder = 'banner';
+        } else if (file.fieldname === 'item') {
+            folder = 'item';
+        }
+        cb(null, `./public/images/${folder}/`);
+    },
+    filename: function (req, file, cb) {
+        const randomName = uuidv4();
+        const extension = file.originalname.split('.').pop();
+        const filename = `${randomName}.${extension}`;
+        cb(null, filename);
+    }
+});
 
 //HELPERS
 const makeHtml = (data, page, back = true) => {
@@ -37,6 +57,8 @@ const updateSession = (req, prop, data) => {
     sessions = JSON.stringify(sessions);
     fs.writeFileSync('./data/sessions.json', sessions);
 }
+
+
 //MIDDLEWARE
 // Deal with setting sessionId and updating cookie time
 const sessionMiddleware = (req, res, next) => {
@@ -63,8 +85,6 @@ const sessionMiddleware = (req, res, next) => {
 //Bouncer checking if user has been logged in on previous visit and if he is going to restricted area
 const auth = (req, res, next) => {
     const isLogin = req.url.includes('/login') && req.method === 'GET'
-    console.log(req.url)
-    console.log(req.user?.user)
     if (isLogin && req.user?.user) {
         console.log('as isLogin')
         res.redirect(URL + 'admin/dashboard')
@@ -86,16 +106,35 @@ const messagesMiddleware = (req, res, next) => {
     }
     next();
 };
+//Image upload
+const upload = multer(
+
+    {
+        storage: storage,
+        fileFilter: function (req, file, cb) {
+            if (file.mimetype !== 'image/jpeg' && file.mimetype !== 'image/png' && file.mimetype !== 'image/webp') {
+                cb(null, false);
+                req.fileValidationError = true;
+            } else {
+                cb(null, true)
+            }
+        }
+    }
+
+)
 
 
 
 //USE MIDDLEWARE and libraries?
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
 app.use(cookieParser());
+
 app.use(sessionMiddleware);
 app.use(messagesMiddleware);
 app.use(auth);
+
 
 
 //ROUTES
@@ -143,7 +182,7 @@ app.post("/login", (req, res) => {
     res.redirect(URL + 'admin/dashboard');
 
 });
-
+//ADMIN PAGES
 app.get("/admin/dashboard", (req, res) => {
     const data = {
         pageTitle: "CRUD admin dashboard",
@@ -152,6 +191,26 @@ app.get("/admin/dashboard", (req, res) => {
     }
     const html = makeHtml(data, "dashboard", true);
     res.send(html);
+});
+//CREATE MAIN
+app.get("/admin/createMain", (req, res) => {
+    const data = {
+        pageTitle: "CRUD create",
+        message: req.user.message || null,
+        user: req.user.user || null
+    }
+    const html = makeHtml(data, "createMain", true);
+    res.send(html);
+});
+//Multer is added to route because we need to dinamically direct files to different categories
+app.post("/admin/createMain", upload.single('bannerImg'), (req, res) => {
+
+    const { name, text } = req.body
+
+
+    updateSession(req, 'message', { text: 'Įrašas sukurtas', type: 'success' });
+
+    res.redirect(URL + 'admin/dashboard');
 });
 
 const port = 3003;
