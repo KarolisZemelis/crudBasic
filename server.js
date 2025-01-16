@@ -108,23 +108,14 @@ app.get("/", (req, res) => {
     const html = makeHtml(data, "landing", false);
     res.send(html);
 });
-app.get("/admin/tempor", (req, res) => {
-    const data = {
-        pageTitle: "CRUD basic",
-        message: req.user.message || null,
-        user: req.user.user || null
-    }
-
-    const html = makeHtml(data, "tempor", true);
-    res.send(html);
-});
 
 //ADMIN LOGIN
 app.get("/login", (req, res) => {
     const data = {
         pageTitle: "Login",
         message: req.user.message || null,
-        user: req.user.user || null
+        user: req.user.user || null,
+        noMenu: true
     }
     const html = makeHtml(data, "login", true);
     res.send(html);
