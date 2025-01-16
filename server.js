@@ -64,10 +64,11 @@ const auth = (req, res, next) => {
         res.redirect(URL + 'admin/dashboard')
         return
     }
-    const isAdmin = req.url.includes('/admin') && req.method === 'GET'
+
+    const isAdmin = req.url.includes('/admin')
     if (isAdmin && req.user?.user) {
-        res.redirect(URL + 'req.url')
-        return
+        next();
+        return;
     }
 
     next()
@@ -97,6 +98,7 @@ app.get("/", (req, res) => {
 
 //ADMIN LOGIN
 app.get("/admin/login", (req, res) => {
+
     const data = {
         pageTitle: "Login",
     }
@@ -106,6 +108,15 @@ app.get("/admin/login", (req, res) => {
 });
 //ADMIN LOGIN
 app.post("/admin/login", (req, res) => {
+    const isLogout = req.query.hasOwnProperty('logout');
+    console.log(isLogout)
+    if (isLogout) {
+        updateSession(req, 'user', null);
+        updateSession(req, 'message', { text: 'Sėkmingai atsijungta', type: 'success' });
+        res.redirect(URL + 'admin/login');
+        return;
+    }
+
     const { userName, password } = req.body
     let usersDatabase = fs.readFileSync("./data/users.json", "utf8");
     usersDatabase = JSON.parse(usersDatabase);
