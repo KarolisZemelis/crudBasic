@@ -21,6 +21,7 @@ const makeHtml = (data, page, back = true) => {
 };
 
 const updateSession = (req, prop, data) => {
+    // console.log(req)
     const sessionId = req.user.sessionId
     let sessions = fs.readFileSync('./data/sessions.json', 'utf8');
     sessions = JSON.parse(sessions);
@@ -37,6 +38,7 @@ const updateSession = (req, prop, data) => {
     fs.writeFileSync('./data/sessions.json', sessions);
 }
 //MIDDLEWARE
+// Deal with setting sessionId and updating cookie time
 const sessionMiddleware = (req, res, next) => {
     let sessionId = req.cookies.sessionId || null;
     if (!sessionId) {
@@ -58,22 +60,32 @@ const sessionMiddleware = (req, res, next) => {
     req.user = user
     next()
 }
+//Bouncer checking if user has been logged in on previous visit and if he is going to restricted area
 const auth = (req, res, next) => {
     const isLogin = req.url.includes('/login') && req.method === 'GET'
+    console.log(req.url)
+    console.log(req.user?.user)
     if (isLogin && req.user?.user) {
+        console.log('as isLogin')
         res.redirect(URL + 'admin/dashboard')
         return
     }
 
     const isAdmin = req.url.includes('/admin')
-    if (isAdmin && req.user?.user) {
-        next();
+    if (isAdmin && !req.user?.user) {
+        console.log('as isAdmin')
+        res.redirect(URL + 'login')
         return;
     }
-
     next()
 }
-
+//Resets the success/failure message
+const messagesMiddleware = (req, res, next) => {
+    if (req.method === 'GET') {
+        updateSession(req, 'message', null);
+    }
+    next();
+};
 
 
 
@@ -82,6 +94,7 @@ app.use(express.static("public"));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(sessionMiddleware);
+app.use(messagesMiddleware);
 app.use(auth);
 
 
@@ -95,25 +108,34 @@ app.get("/", (req, res) => {
     const html = makeHtml(data, "landing", false);
     res.send(html);
 });
-
-//ADMIN LOGIN
-app.get("/admin/login", (req, res) => {
-
+app.get("/admin/tempor", (req, res) => {
     const data = {
-        pageTitle: "Login",
+        pageTitle: "CRUD basic",
+        message: req.user.message || null,
+        user: req.user.user || null
     }
 
+    const html = makeHtml(data, "tempor", true);
+    res.send(html);
+});
+
+//ADMIN LOGIN
+app.get("/login", (req, res) => {
+    const data = {
+        pageTitle: "Login",
+        message: req.user.message || null,
+        user: req.user.user || null
+    }
     const html = makeHtml(data, "login", true);
     res.send(html);
 });
-//ADMIN LOGIN
-app.post("/admin/login", (req, res) => {
+//ADMIN LOGIN/LOGOUT
+app.post("/login", (req, res) => {
     const isLogout = req.query.hasOwnProperty('logout');
-    console.log(isLogout)
     if (isLogout) {
         updateSession(req, 'user', null);
         updateSession(req, 'message', { text: 'Sėkmingai atsijungta', type: 'success' });
-        res.redirect(URL + 'admin/login');
+        res.redirect(URL + 'login');
         return;
     }
 
@@ -122,9 +144,10 @@ app.post("/admin/login", (req, res) => {
     usersDatabase = JSON.parse(usersDatabase);
     const user = usersDatabase.find(u => u.userName === userName && u.password === md5(password))
     if (!user) {
-        res.redirect(URL + "admin/login");
+        res.redirect(URL + "login");
         return;
     }
+    updateSession(req, 'message', { text: 'Sėkmingai prisijungta', type: 'success' });
     updateSession(req, 'user', user)
     res.redirect(URL + 'admin/dashboard');
 
@@ -133,6 +156,8 @@ app.post("/admin/login", (req, res) => {
 app.get("/admin/dashboard", (req, res) => {
     const data = {
         pageTitle: "CRUD admin dashboard",
+        message: req.user.message || null,
+        user: req.user.user || null
     }
     const html = makeHtml(data, "dashboard", true);
     res.send(html);
