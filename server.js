@@ -62,6 +62,7 @@ const updateSession = (req, prop, data) => {
 //MIDDLEWARE
 // Deal with setting sessionId and updating cookie time
 const sessionMiddleware = (req, res, next) => {
+
     let sessionId = req.cookies.sessionId || null;
     if (!sessionId) {
         sessionId = md5(uuidv4());
@@ -204,9 +205,36 @@ app.get("/admin/createMain", (req, res) => {
 });
 //Multer is added to route because we need to dinamically direct files to different categories
 app.post("/admin/createMain", upload.single('bannerImg'), (req, res) => {
+    const { title, text } = req.body
+    if (!title || !text) {
+        updateSession(req, 'message', { text: 'Užpildykite visus laukus', type: 'danger' });
+        res.redirect(URL + 'admin/createMain');
+        return;
+    }
+    if (req.fileValidationError) {
+        updateSession(req, 'message', { text: 'Netinkamas paveiksliukas', type: 'danger' });
+        res.redirect(URL + 'admin/createMain');
+        return;
+    }
+    let fileName = req.file?.filename;
+    let mainPageData = fs.readFileSync('./data/mainPage.json', 'utf8');
+    mainPageData = JSON.parse(mainPageData);
+    if (!fileName) {
+        fileName = mainPageData.bannerImg;
+    } else {
+        if (mainPageData.bannerImg) {
+            console.log(mainPageData.bannerImg)
+            fs.unlinkSync('./public/images/banner/' + mainPageData.bannerImg);
+        }
+    }
+    mainPageData = {
+        title,
+        text,
+        bannerImg: fileName
+    };
 
-    const { name, text } = req.body
-
+    mainPageData = JSON.stringify(mainPageData);
+    fs.writeFileSync('./data/mainPage.json', mainPageData);
 
     updateSession(req, 'message', { text: 'Įrašas sukurtas', type: 'success' });
 
