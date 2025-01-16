@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="{{URL}}/front.app.js"defer></script>
-    <link rel="stylesheet" href="{{URL}}/front.style.css">
+    <script src="{{URL}}/back.app.js"defer></script>
+    <link rel="stylesheet" href="{{URL}}/back.style.css">
     <title>{{pageTitle}}</title>
 </head>
 <body>
