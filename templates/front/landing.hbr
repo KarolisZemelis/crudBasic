@@ -13,24 +13,23 @@
   </section>
 
   <section class="section">
-    <h3>Lorem, ipsum dolor.
-    </h3>
-    <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Vero, mollitia
-      delectus eum harum, distinctio voluptatibus culpa voluptates ratione
-      dolorem cupiditate provident, molestiae ut eaque cumque!</p>
+    <div class="section-text-container" data-form-container>
+      <h3 data-form-title>Lorem, ipsum dolor.
+      </h3>
+      <p data-form-text>Lorem, ipsum dolor sit amet consectetur adipisicing
+        elit. Vero, mollitia delectus eum harum, distinctio voluptatibus culpa
+        voluptates ratione dolorem cupiditate provident, molestiae ut eaque
+        cumque!</p></div>
+
   </section>
   <section class="section">
-    <h3>Lorem, ipsum dolor.
-    </h3>
-    <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Vero, mollitia
-      delectus eum harum, distinctio voluptatibus culpa voluptates ratione
-      dolorem cupiditate provident, molestiae ut eaque cumque!</p>
-  </section>
-  <section class="section">
-    <h3>Lorem, ipsum dolor.
-    </h3>
-    <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Vero, mollitia
-      delectus eum harum, distinctio voluptatibus culpa voluptates ratione
-      dolorem cupiditate provident, molestiae ut eaque cumque!</p>
+    <div class="section-text-container" data-form-container>
+      <h3 data-form-title>Lorem, ipsum dolor.
+      </h3>
+      <p data-form-text>Lorem, ipsum dolor sit amet consectetur adipisicing
+        elit. Vero, mollitia delectus eum harum, distinctio voluptatibus culpa
+        voluptates ratione dolorem cupiditate provident, molestiae ut eaque
+        cumque!</p></div>
+
   </section>
 </main>
