@@ -8,32 +8,33 @@
     <title>{{pageTitle}}</title>
 </head>
 <body>
-    <header>
-    <div id="mobile">
-      <div class="off-screen-menu">
-        <ul>
-          <li> <a href="">home</a> </li>
-          <li> <a href="">about</a> </li>
-          <li> <a href="">xxxx</a> </li>
-        </ul>
+     <header class="header">
+      <a href="#" class="logo">Portfolio</a>
+      <div id="mobile-menu">
+        <div class="off-screen-menu">
+          <ul>
+            <li><a href="">home</a></li>
+            <li><a href="">about</a></li>
+            <li><a href="">xxxx</a></li>
+          </ul>
+        </div>
+        <nav class="mobile">
+          <div class="ham-menu">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </nav>
       </div>
-  <nav class="mobile">
-    <div class="logo">LOGO</div>
-      <div class="ham-menu">
-        <span></span>
-        <span></span>
-        <span></span>
+      <!-- BIG MENU -->
+
+      <div id="big-menu">
+        <nav class="navbar" id="big-menu">
+          <a href="#" class="active">Home</a>
+          <a href="#">About</a>
+          <a href="#">Services</a>
+          <a href="#">Portfolio</a>
+          <a href="#">Contact</a>
+        </nav>
       </div>
-  </nav>
-  </div>
-
-  <nav class="big-menu">
-    <div class="logo">LOGO</div>
-    <div class="big-menu">
-          <li> <a href="">home</a> </li>
-          <li> <a href="">about</a> </li>
-          <li> <a href="">xxxx</a> </li>
-    </div>
-  </nav>
-
     </header>

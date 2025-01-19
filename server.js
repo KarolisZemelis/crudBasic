@@ -145,7 +145,8 @@ app.get("/", (req, res) => {
     const data = {
         pageTitle: "CRUD basic",
         message: req.user.message || null,
-        mainPageData
+        mainPageData,
+
     }
 
     const html = makeHtml(data, "landing", false);
@@ -233,9 +234,12 @@ app.post("/admin/createMain", upload.single('bannerImg'), (req, res) => {
     mainPageData = {
         title,
         text,
-        bannerImg: fileName
-    };
+        bannerImg: fileName,
+        imgPath: '/images/banner/'
 
+
+    };
+    console.log(mainPageData)
     mainPageData = JSON.stringify(mainPageData);
     fs.writeFileSync('./data/mainPage.json', mainPageData);
 

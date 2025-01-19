@@ -1,35 +1,19 @@
 <main>
-  <section class="hero-section">
-    <div
-      class="hero-image"
-      style="background-image: url('{{URL}}/images/banner/{{mainPageData.bannerImg}}');background-size: cover; background-position: center;"
-    >
-      <div class="hero-text-container">
-        <h1 class="display-4">Welcome to My Website</h1>
-        <p class="lead">I got some text here</p>
-        <a href="#projects" class="hero-btn">Click me!</a>
+  <section
+    class="home"
+    style="background-image: url('{{mainPageData.imgPath}}{{mainPageData.bannerImg}}');"
+  >
+    <div class="home-section">
+
+      <h1>Hi Im Karolis web developer</h1>
+      <p>
+        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Placeat nam
+        fuga incidunt veritatis architecto omnis?
+      </p>
+      <div class="btn-box">
+        <a href="">Hire me</a>
+        <a href="">Contact me</a>
       </div>
     </div>
-  </section>
-
-  <section class="section">
-    <div class="section-text-container" data-form-container>
-      <h3 data-form-title>Lorem, ipsum dolor.
-      </h3>
-      <p data-form-text>Lorem, ipsum dolor sit amet consectetur adipisicing
-        elit. Vero, mollitia delectus eum harum, distinctio voluptatibus culpa
-        voluptates ratione dolorem cupiditate provident, molestiae ut eaque
-        cumque!</p></div>
-
-  </section>
-  <section class="section">
-    <div class="section-text-container" data-form-container>
-      <h3 data-form-title>Lorem, ipsum dolor.
-      </h3>
-      <p data-form-text>Lorem, ipsum dolor sit amet consectetur adipisicing
-        elit. Vero, mollitia delectus eum harum, distinctio voluptatibus culpa
-        voluptates ratione dolorem cupiditate provident, molestiae ut eaque
-        cumque!</p></div>
-
   </section>
 </main>
