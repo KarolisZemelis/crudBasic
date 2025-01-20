@@ -13,15 +13,17 @@ const URL = "http://localhost:3003/";
 const storage = multer.diskStorage({
 
     destination: function (req, file, cb) {
+        console.log(req.file)
         let folder = 'default';
         if (file.fieldname === 'bannerImg') {
             folder = 'banner';
-        } else if (file.fieldname === 'item') {
-            folder = 'item';
+        } else if (file.fieldname === 'listImg') {
+            folder = 'list';
         }
         cb(null, `./public/images/${folder}/`);
     },
     filename: function (req, file, cb) {
+        console.log(req.file)
         const randomName = uuidv4();
         const extension = file.originalname.split('.').pop();
         const filename = `${randomName}.${extension}`;
@@ -41,7 +43,7 @@ const makeHtml = (data, page, back = true) => {
 };
 
 const updateSession = (req, prop, data) => {
-    // console.log(req)
+
     const sessionId = req.user.sessionId
     let sessions = fs.readFileSync('./data/sessions.json', 'utf8');
     sessions = JSON.parse(sessions);
@@ -56,6 +58,7 @@ const updateSession = (req, prop, data) => {
     }
     sessions = JSON.stringify(sessions);
     fs.writeFileSync('./data/sessions.json', sessions);
+
 }
 
 
@@ -81,10 +84,12 @@ const sessionMiddleware = (req, res, next) => {
 
     res.cookie('sessionId', sessionId, { maxAge: 1000 * 60 * 60 * 24 * 365 })
     req.user = user
+
     next()
 }
 //Bouncer checking if user has been logged in on previous visit and if he is going to restricted area
 const auth = (req, res, next) => {
+
     const isLogin = req.url.includes('/login') && req.method === 'GET'
     if (isLogin && req.user?.user) {
         console.log('as isLogin')
@@ -98,13 +103,16 @@ const auth = (req, res, next) => {
         res.redirect(URL + 'login')
         return;
     }
+
     next()
 }
 //Resets the success/failure message
 const messagesMiddleware = (req, res, next) => {
+
     if (req.method === 'GET') {
         updateSession(req, 'message', null);
     }
+
     next();
 };
 //Image upload
@@ -120,7 +128,7 @@ const upload = multer(
                 cb(null, true)
             }
         }
-    }
+    },
 
 )
 
@@ -129,7 +137,6 @@ app.use(express.static("public"));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
-
 app.use(sessionMiddleware);
 app.use(messagesMiddleware);
 app.use(auth);
@@ -257,8 +264,46 @@ app.get("/admin/createListItem", (req, res) => {
         user: req.user.user || null,
         createList: true
     }
-    const html = makeHtml(data, "createListItem", true);
+    const html = makeHtml(data, "createList", true);
     res.send(html);
+});
+
+app.post("/admin/createListItem", upload.single('listImg'), (req, res) => {
+    const { title, text } = req.body
+    if (!title || !text) {
+        updateSession(req, 'message', { text: 'Užpildykite visus laukus', type: 'danger' });
+        res.redirect(URL + 'admin/createMain');
+        return;
+    }
+    if (req.fileValidationError) {
+        updateSession(req, 'message', { text: 'Netinkamas paveiksliukas', type: 'danger' });
+        res.redirect(URL + 'admin/createMain');
+        return;
+    }
+    let fileName = req.file?.filename;
+    let listPageData = fs.readFileSync('./data/listPage.json', 'utf8');
+    listPageData = JSON.parse(listPageData);
+    if (!fileName) {
+        fileName = listPageData.listImg;
+    } else {
+        if (listPageData.listImg) {
+            fs.unlinkSync('./public/images/list/' + listPageData.listImg);
+        }
+    }
+    listPageData = {
+        title,
+        text,
+        listImg: fileName,
+        imgPath: '/images/list/'
+    };
+
+    listPageData = JSON.stringify(listPageData);
+    fs.writeFileSync('./data/listPage.json', listPageData);
+
+    updateSession(req, 'message', { text: 'Save successful', type: 'success' });
+
+    res.redirect(URL + 'admin/dashboard');
+    console.log('as pabaigiu post')
 });
 
 const port = 3003;

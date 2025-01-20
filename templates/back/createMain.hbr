@@ -1,6 +1,6 @@
 <form action="createMain" method="POST" enctype="multipart/form-data">
-  <div class="row">
-    <div class="row">
+  <div class="row formContainer">
+    <div class="row title">
       <input
         type="text"
         class="form-control"
@@ -15,16 +15,16 @@
         aria-label="text"
         name="text"
         rows="3"
-        placeholder="text"
+        placeholder="Text"
       ></textarea>
     </div>
-    <div>
 
-      <div class="form-bin">
-        <label for="formFile" class="form-label">Baneris</label>
-        <input class="form-control" type="file" name="bannerImg" />
-      </div>
+    <div class="row form-bin">
+      <label for="formFile" class="form-label">Banner</label>
+      <input class="form-control" type="file" name="bannerImg" />
     </div>
+
+    <button type="submit" class="btn btn-primary">Save</button>
   </div>
-  <button type="submit" class="btn btn-primary">Primary</button>
+
 </form>

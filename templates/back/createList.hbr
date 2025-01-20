@@ -1,0 +1,30 @@
+<form action="createListItem" method="POST" enctype="multipart/form-data">
+  <div class="row formContainer">
+    <div class="row title">
+      <input
+        type="text"
+        class="form-control"
+        name="title"
+        placeholder="Title"
+        aria-label="First name"
+      />
+    </div>
+    <div class="row">
+      <textarea
+        class="form-control"
+        aria-label="text"
+        name="text"
+        rows="3"
+        placeholder="Text"
+      ></textarea>
+    </div>
+
+    <div class="row form-bin">
+      <label for="formFile" class="form-label">Image</label>
+      <input class="form-control" type="file" name="listImg" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save</button>
+  </div>
+
+</form>

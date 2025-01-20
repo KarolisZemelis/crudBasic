@@ -15,7 +15,7 @@
       {{#if noMenu}}
     {{else}}
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">Navbar</a>
+    <a class="navbar-brand" href="/">Portfolio</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -23,8 +23,8 @@
       <div class="navbar-nav">
         <a class="nav-link {{#if dashboard}} active {{/if}}" href="/admin/dashboard">Dashboard</a>
         <a class="nav-link {{#if createMain}} active {{/if}}" href="/admin/createMain">Create/Edit Main</a>
+        <a class="nav-link {{#if createList}} active {{/if}}" href="/admin/createListItem">Create list item</a>
 
-        <a class="nav-link" href="#">Pricing</a>
 
         {{#if user}}
         <form action="/login?logout" method="POST">
@@ -36,9 +36,19 @@
   </div>
    {{/if}}
 </nav>
-{{#if message}}
-<div class="message"> {{message.text}} </div>
-{{/if}}
+    {{#if message}}
+    <div class="container mt-5" data-msg>
+        <div class="row">
+            <div class="col-4"></div>
+            <div class="col-4">
+                <div class="alert alert-{{message.type}}" role="alert">
+                    {{message.text}}
+                </div>
+            </div>
+            <div class="col-4"></div>
+        </div>
+    </div>
+    {{/if}}
 </nav>
 </header>
 
