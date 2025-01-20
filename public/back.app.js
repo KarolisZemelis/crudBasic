@@ -10,8 +10,7 @@ if (message) {
 }
 var navBar = document.querySelectorAll('.nav-link');
 navBar.forEach(function (menuItem) {
-  menuItem.addEventListener('click', function (event) {
-    // event.preventDefault()
+  menuItem.addEventListener('click', function () {
     menuItem.classList.add('active');
     menuItem.setAttribute('aria-current', 'page');
     var currentUrl = window.location.href;

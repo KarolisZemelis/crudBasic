@@ -7,8 +7,7 @@ if (message) {
 
 const navBar = document.querySelectorAll('.nav-link')
 navBar.forEach((menuItem) => {
-    menuItem.addEventListener('click', (event) => {
-        // event.preventDefault()
+    menuItem.addEventListener('click', () => {
         menuItem.classList.add('active')
         menuItem.setAttribute('aria-current', 'page');
         const currentUrl = window.location.href;

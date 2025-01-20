@@ -13,7 +13,6 @@ const URL = "http://localhost:3003/";
 const storage = multer.diskStorage({
 
     destination: function (req, file, cb) {
-        console.log(req.file)
         let folder = 'default';
         if (file.fieldname === 'bannerImg') {
             folder = 'banner';
@@ -23,7 +22,6 @@ const storage = multer.diskStorage({
         cb(null, `./public/images/${folder}/`);
     },
     filename: function (req, file, cb) {
-        console.log(req.file)
         const randomName = uuidv4();
         const extension = file.originalname.split('.').pop();
         const filename = `${randomName}.${extension}`;
@@ -303,7 +301,6 @@ app.post("/admin/createListItem", upload.single('listImg'), (req, res) => {
     updateSession(req, 'message', { text: 'Save successful', type: 'success' });
 
     res.redirect(URL + 'admin/dashboard');
-    console.log('as pabaigiu post')
 });
 
 const port = 3003;

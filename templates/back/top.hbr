@@ -13,6 +13,9 @@
 <header>
   <nav class="navbar navbar-expand-lg bg-body-tertiary">
       {{#if noMenu}}
+      <div class="logoContainer">
+  <a href="{{url}}" class="logo">Portfolio</a>
+</div>
     {{else}}
   <div class="container-fluid">
     <a class="navbar-brand" href="/">Portfolio</a>
@@ -36,8 +39,9 @@
   </div>
    {{/if}}
 </nav>
-    {{#if message}}
-    <div class="container mt-5" data-msg>
+
+{{#if message}}
+    <div class="container mt-1 message" data-msg>
         <div class="row">
             <div class="col-4"></div>
             <div class="col-4">

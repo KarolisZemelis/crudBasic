@@ -1,4 +1,4 @@
-<form class="row g-3" action="/login" method="POST">
+<form class="row g-3 login" action="/login" method="POST">
   <div class="col-md-6">
     <label for="userName" class="form-label">Username</label>
     <input type="text" class="form-control" name="userName" />
@@ -7,8 +7,5 @@
     <label for="inputPassword4" class="form-label">Password</label>
     <input type="password" class="form-control" name="password" />
   </div>
-
-  <div class="col-12">
-    <button type="submit" class="btn btn-primary">Sign in</button>
-  </div>
+  <button type="submit" class="btn btn-primary">Sign in</button>
 </form>
