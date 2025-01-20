@@ -250,6 +250,17 @@ app.post("/admin/createMain", upload.single('bannerImg'), (req, res) => {
     res.redirect(URL + 'admin/dashboard');
 });
 
+app.get("/admin/createListItem", (req, res) => {
+    const data = {
+        pageTitle: "CRUD create list item",
+        message: req.user.message || null,
+        user: req.user.user || null,
+        createList: true
+    }
+    const html = makeHtml(data, "createListItem", true);
+    res.send(html);
+});
+
 const port = 3003;
 app.listen(port, () => {
     console.log(`Serveris pasiruošęs ir laukia ant ${port} porto!`);
