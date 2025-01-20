@@ -8,11 +8,15 @@ if (message) {
     message.style.display = 'none';
   }, 2500);
 }
-var hamMenu = document.querySelector('.ham-menu');
-var offScreenMenu = document.querySelector('.off-screen-menu');
-hamMenu.addEventListener('click', function () {
-  hamMenu.classList.toggle('active');
-  offScreenMenu.classList.toggle('active');
+var navBar = document.querySelectorAll('.nav-link');
+navBar.forEach(function (menuItem) {
+  menuItem.addEventListener('click', function (event) {
+    // event.preventDefault()
+    menuItem.classList.add('active');
+    menuItem.setAttribute('aria-current', 'page');
+    var currentUrl = window.location.href;
+    console.log(currentUrl);
+  });
 });
 /******/ })()
 ;

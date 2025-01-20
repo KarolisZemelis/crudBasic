@@ -5,11 +5,16 @@ if (message) {
     }, 2500)
 }
 
-const hamMenu = document.querySelector('.ham-menu')
-const offScreenMenu = document.querySelector('.off-screen-menu')
+const navBar = document.querySelectorAll('.nav-link')
+navBar.forEach((menuItem) => {
+    menuItem.addEventListener('click', (event) => {
+        // event.preventDefault()
+        menuItem.classList.add('active')
+        menuItem.setAttribute('aria-current', 'page');
+        const currentUrl = window.location.href;
+        console.log(currentUrl)
+    })
 
-hamMenu.addEventListener('click', () => {
-    hamMenu.classList.toggle('active');
-    offScreenMenu.classList.toggle('active')
 })
+
 

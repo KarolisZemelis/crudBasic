@@ -192,7 +192,8 @@ app.get("/admin/dashboard", (req, res) => {
     const data = {
         pageTitle: "CRUD admin dashboard",
         message: req.user.message || null,
-        user: req.user.user || null
+        user: req.user.user || null,
+        dashboard: true
     }
     const html = makeHtml(data, "dashboard", true);
     res.send(html);
@@ -202,7 +203,8 @@ app.get("/admin/createMain", (req, res) => {
     const data = {
         pageTitle: "CRUD create",
         message: req.user.message || null,
-        user: req.user.user || null
+        user: req.user.user || null,
+        createMain: true
     }
     const html = makeHtml(data, "createMain", true);
     res.send(html);

@@ -5,10 +5,9 @@
   >
     <div class="home-section">
 
-      <h1>Hi Im Karolis web developer</h1>
+      <h1>{{mainPageData.title}}</h1>
       <p>
-        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Placeat nam
-        fuga incidunt veritatis architecto omnis?
+        {{mainPageData.text}}
       </p>
       <div class="btn-box">
         <a href="">Hire me</a>
