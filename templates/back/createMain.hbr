@@ -1,3 +1,4 @@
+<h1>Create/edit main page</h1>
 <form action="createMain" method="POST" enctype="multipart/form-data">
   <div class="row formContainer">
     <div class="row title">
@@ -7,6 +8,7 @@
         name="title"
         placeholder="Title"
         aria-label="First name"
+        value="{{#if  mainPageData}} {{ mainPageData.title}}{{/if}}{{#if  oldData}} {{ oldData.title}}{{/if}}"
       />
     </div>
     <div class="row">
@@ -16,10 +18,12 @@
         name="text"
         rows="3"
         placeholder="Text"
+        value="{{#if  mainPageData}} {{ mainPageData.text}}{{/if}}{{#if  oldData}} {{ oldData.text}}{{/if}}"
       ></textarea>
     </div>
 
     <div class="row form-bin">
+      <input type="hidden" name="uploadType" value="banner" />
       <label for="formFile" class="form-label">Banner</label>
       <input class="form-control" type="file" name="bannerImg" />
     </div>

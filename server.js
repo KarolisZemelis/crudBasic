@@ -20,6 +20,7 @@ const storage = multer.diskStorage({
             folder = 'list';
         }
         cb(null, `./public/images/${folder}/`);
+
     },
     filename: function (req, file, cb) {
         const randomName = uuidv4();
@@ -28,6 +29,18 @@ const storage = multer.diskStorage({
         cb(null, filename);
     }
 });
+
+// const storage = multer.diskStorage({
+//     destination: function (req, file, cb) {
+//         cb(null, './public/images/');
+//     },
+//     filename: function (req, file, cb) {
+//         const randomName = uuidv4();
+//         const extension = file.originalname.split('.').pop();
+//         const filename = `${randomName}.${extension}`;
+//         cb(null, filename);
+//     }
+// });
 
 //HELPERS
 const makeHtml = (data, page, back = true) => {
@@ -57,13 +70,11 @@ const updateSession = (req, prop, data) => {
     sessions = JSON.stringify(sessions);
     fs.writeFileSync('./data/sessions.json', sessions);
 
-}
-
+};
 
 //MIDDLEWARE
 // Deal with setting sessionId and updating cookie time
 const sessionMiddleware = (req, res, next) => {
-
     let sessionId = req.cookies.sessionId || null;
     if (!sessionId) {
         sessionId = md5(uuidv4());
@@ -82,7 +93,6 @@ const sessionMiddleware = (req, res, next) => {
 
     res.cookie('sessionId', sessionId, { maxAge: 1000 * 60 * 60 * 24 * 365 })
     req.user = user
-
     next()
 }
 //Bouncer checking if user has been logged in on previous visit and if he is going to restricted area
@@ -90,14 +100,12 @@ const auth = (req, res, next) => {
 
     const isLogin = req.url.includes('/login') && req.method === 'GET'
     if (isLogin && req.user?.user) {
-        console.log('as isLogin')
         res.redirect(URL + 'admin/dashboard')
         return
     }
 
     const isAdmin = req.url.includes('/admin')
     if (isAdmin && !req.user?.user) {
-        console.log('as isAdmin')
         res.redirect(URL + 'login')
         return;
     }
@@ -113,6 +121,35 @@ const messagesMiddleware = (req, res, next) => {
 
     next();
 };
+
+const oldDataMiddleWare = (req, res, next) => {
+    if (req.method === 'POST') {
+        const oldData = req.body;
+        updateSession(req, 'oldData', oldData)
+
+    }
+    if (req.method === 'GET') {
+        updateSession(req, 'oldData', null);
+    }
+    next()
+};
+
+// const dynamicUploadMiddleware = (req, res, next) => {
+//     console.log('Before file upload:', req.body);  // Log the request body before file upload
+
+//     const fieldName = req.body.uploadType === 'banner' ? 'bannerImg' : 'listImg';
+
+//     // Use Multer only after processing the form data
+//     const uploadMiddleware = upload.single(fieldName);
+//     uploadMiddleware(req, res, (err) => {
+//         if (err) {
+//             return res.status(500).send('File upload failed');
+//         }
+
+//         console.log('After file upload:', req.body);  // Log the request body after file upload
+//         next();
+//     });
+// };
 //Image upload
 const upload = multer(
 
@@ -137,16 +174,14 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(sessionMiddleware);
 app.use(messagesMiddleware);
+app.use(oldDataMiddleWare);
 app.use(auth);
-
-
 
 //ROUTES
 //MAIN PAGE FRONT
 app.get("/", (req, res) => {
     let mainPageData = fs.readFileSync('./data/mainPage.json', 'utf8');
     mainPageData = JSON.parse(mainPageData);
-    console.log(mainPageData)
     const data = {
         pageTitle: "CRUD basic",
         message: req.user.message || null,
@@ -205,12 +240,17 @@ app.get("/admin/dashboard", (req, res) => {
 });
 //CREATE MAIN
 app.get("/admin/createMain", (req, res) => {
+    let mainPageData = fs.readFileSync('./data/mainPage.json', 'utf8');
+    mainPageData = JSON.parse(mainPageData);
     const data = {
         pageTitle: "CRUD create",
         message: req.user.message || null,
+        oldData: req.user.oldData || null,
         user: req.user.user || null,
+        mainPageData,
         createMain: true
     }
+
     const html = makeHtml(data, "createMain", true);
     res.send(html);
 });
@@ -234,19 +274,18 @@ app.post("/admin/createMain", upload.single('bannerImg'), (req, res) => {
         fileName = mainPageData.bannerImg;
     } else {
         if (mainPageData.bannerImg) {
-            console.log(mainPageData.bannerImg)
             fs.unlinkSync('./public/images/banner/' + mainPageData.bannerImg);
         }
     }
-    mainPageData = {
+
+    mainPageData =
+    {
         title,
         text,
         bannerImg: fileName,
         imgPath: '/images/banner/'
-
-
-    };
-    console.log(mainPageData)
+    }
+        ;
     mainPageData = JSON.stringify(mainPageData);
     fs.writeFileSync('./data/mainPage.json', mainPageData);
 
@@ -288,13 +327,16 @@ app.post("/admin/createListItem", upload.single('listImg'), (req, res) => {
             fs.unlinkSync('./public/images/list/' + listPageData.listImg);
         }
     }
-    listPageData = {
-        title,
-        text,
-        listImg: fileName,
-        imgPath: '/images/list/'
+    const itemId = uuidv4();
+    itemData = {
+        [itemId]: {
+            title,
+            text,
+            listImg: fileName,
+            imgPath: '/images/list/'
+        }
     };
-
+    listPageData.push(itemData)
     listPageData = JSON.stringify(listPageData);
     fs.writeFileSync('./data/listPage.json', listPageData);
 
