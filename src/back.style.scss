@@ -11,11 +11,6 @@
   text-decoration: none;
 }
 
-#navbarNavAltMarkup {
-  display: flex;
-  justify-content: space-between;
-}
-
 // create/edit main and create list/edit list items
 .formContainer {
   padding-top: 3rem;
@@ -77,11 +72,11 @@
 .listItemContainer {
   width: 80%;
   margin: auto;
-  margin-top: 7rem;
+  margin-top: 3rem;
 
   .card {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     margin: 1rem;
     background: white;
     padding: 2rem;
@@ -96,13 +91,64 @@
       flex-direction: column;
     }
     .btn-box {
-      margin-right: 2rem;
       display: flex;
-      flex-direction: column;
+      flex-direction: row;
       justify-content: center;
+      align-items: center;
       gap: 1.5rem;
-      a.btn.btn-primary {
-        margin: 0;
+    }
+  }
+}
+
+//edit list item
+
+.card-text-edit {
+  height: 10rem;
+}
+
+@media (max-width: 1024px) {
+  .btn-box {
+    a.btn.btn-primary {
+    }
+  }
+}
+
+@media (min-width: 1024px) {
+  #navbarNavAltMarkup {
+    display: flex;
+    justify-content: space-between;
+  }
+  //listPage
+  .listItemContainer {
+    width: 80%;
+    margin: auto;
+    margin-top: 3rem;
+
+    .card {
+      display: flex;
+      flex-direction: row;
+      margin: 1rem;
+      background: white;
+      padding: 2rem;
+      .card-img-top {
+        width: 5rem;
+        height: 5rem;
+        margin: auto;
+      }
+      .card-body {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+      }
+      .btn-box {
+        margin-right: 2rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 1.5rem;
+        a.btn.btn-primary {
+          margin: 0;
+        }
       }
     }
   }

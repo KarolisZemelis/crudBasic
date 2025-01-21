@@ -11978,11 +11978,6 @@ textarea.form-control-lg {
   text-decoration: none;
 }
 
-#navbarNavAltMarkup {
-  display: flex;
-  justify-content: space-between;
-}
-
 .formContainer {
   padding-top: 3rem;
   width: 80%;
@@ -12039,11 +12034,11 @@ textarea.form-control-lg {
 .listItemContainer {
   width: 80%;
   margin: auto;
-  margin-top: 7rem;
+  margin-top: 3rem;
 }
 .listItemContainer .card {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   margin: 1rem;
   background: white;
   padding: 2rem;
@@ -12059,12 +12054,52 @@ textarea.form-control-lg {
   flex-direction: column;
 }
 .listItemContainer .card .btn-box {
-  margin-right: 2rem;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
+  align-items: center;
   gap: 1.5rem;
 }
-.listItemContainer .card .btn-box a.btn.btn-primary {
-  margin: 0;
+
+.card-text-edit {
+  height: 10rem;
+}
+
+@media (min-width: 1024px) {
+  #navbarNavAltMarkup {
+    display: flex;
+    justify-content: space-between;
+  }
+  .listItemContainer {
+    width: 80%;
+    margin: auto;
+    margin-top: 3rem;
+  }
+  .listItemContainer .card {
+    display: flex;
+    flex-direction: row;
+    margin: 1rem;
+    background: white;
+    padding: 2rem;
+  }
+  .listItemContainer .card .card-img-top {
+    width: 5rem;
+    height: 5rem;
+    margin: auto;
+  }
+  .listItemContainer .card .card-body {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+  }
+  .listItemContainer .card .btn-box {
+    margin-right: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1.5rem;
+  }
+  .listItemContainer .card .btn-box a.btn.btn-primary {
+    margin: 0;
+  }
 }

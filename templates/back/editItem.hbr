@@ -1,0 +1,46 @@
+<h1>Edit item id: {{itemToDisplay.id}}</h1>
+{{itemToDisplay.id}}
+<div class="listItemContainer">
+  <form
+    action="/admin/saveItemEdit/{{itemToDisplay.id}}/"
+    method="POST"
+    enctype="multipart/form-data"
+  >
+    <div class="card">
+      <img
+        src="{{itemToDisplay.imgPath}}{{itemToDisplay.listImg}}"
+        class="card-img-top"
+        alt="..."
+      />
+      <div class="card-body">
+        <input
+          class="form-control image-upload mb-2"
+          type="file"
+          name="listImg"
+          value="{{itemToDisplay.imgPath}}{{itemToDisplay.listImg}}"
+        />
+        <input
+          type="text"
+          class="card-title"
+          name="title"
+          placeholder="Title"
+          aria-label="First name"
+          value="{{itemToDisplay.title}}"
+        />
+        <textarea
+          class="card-text-edit"
+          aria-label="text"
+          name="text"
+          rows="3"
+          placeholder="Text"
+        >{{itemToDisplay.text}}</textarea>
+
+      </div>
+      <div class="btn-box">
+        <button type="submit" class="btn btn-primary">Save</button>
+        <a href="/admin/itemList" class="btn btn-primary">Cancel</a>
+      </div>
+    </div>
+
+  </form>
+</div>

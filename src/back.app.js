@@ -16,4 +16,19 @@ navBar.forEach((menuItem) => {
 
 })
 
+const image = document.querySelector('.card-img-top')
+const imageInput = document.querySelector('.image-upload')
+if (imageInput) {
+    imageInput.addEventListener('change', _ => {
+        const file = imageInput.files[0]; // Get the selected file
+        if (file) {
+            const reader = new FileReader(); // Create a FileReader object
+            reader.onload = (e) => {
+                image.src = e.target.result; // Update the image source with the data URL
+            };
+            reader.readAsDataURL(file); // Read the file as a data URL
+        }
+    })
+}
+
 

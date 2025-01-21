@@ -340,7 +340,8 @@ app.post("/admin/createListItem", upload.single('listImg'), (req, res) => {
         imgPath: '/images/list/'
 
     };
-    listPageData.push(itemData)
+    // listPageData.push(itemData)
+    listPageData[itemId] = itemData
     listPageData = JSON.stringify(listPageData);
     fs.writeFileSync('./data/listPage.json', listPageData);
 
@@ -352,7 +353,7 @@ app.post("/admin/createListItem", upload.single('listImg'), (req, res) => {
 app.get("/admin/itemList", (req, res) => {
     let listPageData = fs.readFileSync('./data/listPage.json', 'utf8');
     listPageData = JSON.parse(listPageData);
-
+    console.log(listPageData)
     const data = {
         pageTitle: "CRUD item list",
         message: req.user.message || null,
@@ -363,6 +364,66 @@ app.get("/admin/itemList", (req, res) => {
     const html = makeHtml(data, "itemList", true);
     res.send(html);
 });
+
+app.get("/admin/editItem/:id", (req, res) => {
+    let listPageData = fs.readFileSync('./data/listPage.json', 'utf8');
+    listPageData = JSON.parse(listPageData);
+    const itemId = req.params.id
+    let itemToDisplay = listPageData[itemId]
+    const data = {
+        pageTitle: "CRUD item list",
+        message: req.user.message || null,
+        user: req.user.user || null,
+        itemList: true,
+        itemToDisplay
+    }
+
+
+    const html = makeHtml(data, "editItem", true);
+    res.send(html);
+});
+
+app.post("/admin/saveItemEdit/:id", upload.single('listImg'), (req, res) => {
+    const { title, text } = req.body
+    const itemId = req.params.id
+    if (!title || !text) {
+        updateSession(req, 'message', { text: 'Užpildykite visus laukus', type: 'danger' });
+        res.redirect(URL + 'admin/createMain');
+        return;
+    }
+    if (req.fileValidationError) {
+        updateSession(req, 'message', { text: 'Netinkamas paveiksliukas', type: 'danger' });
+        res.redirect(URL + 'admin/createMain');
+        return;
+    }
+    let fileName = req.file?.filename;
+    let listPageData = fs.readFileSync('./data/listPage.json', 'utf8');
+    listPageData = JSON.parse(listPageData);
+    if (!fileName) {
+        fileName = listPageData.listImg;
+    } else {
+        if (listPageData.listImg) {
+            fs.unlinkSync('./public/images/list/' + listPageData.listImg);
+        }
+    }
+
+    itemData = {
+        id: itemId,
+        title,
+        text,
+        listImg: fileName,
+        imgPath: '/images/list/'
+
+    };
+    listPageData[itemId] = itemData
+    listPageData = JSON.stringify(listPageData);
+    fs.writeFileSync('./data/listPage.json', listPageData);
+
+    updateSession(req, 'message', { text: 'Save successful', type: 'success' });
+
+    res.redirect(URL + 'admin/dashboard');
+});
+
 const port = 3003;
 app.listen(port, () => {
     console.log(`Serveris pasiruošęs ir laukia ant ${port} porto!`);

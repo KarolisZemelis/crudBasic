@@ -17,5 +17,19 @@ navBar.forEach(function (menuItem) {
     console.log(currentUrl);
   });
 });
+var image = document.querySelector('.card-img-top');
+var imageInput = document.querySelector('.image-upload');
+if (imageInput) {
+  imageInput.addEventListener('change', function (_) {
+    var file = imageInput.files[0]; // Get the selected file
+    if (file) {
+      var reader = new FileReader(); // Create a FileReader object
+      reader.onload = function (e) {
+        image.src = e.target.result; // Update the image source with the data URL
+      };
+      reader.readAsDataURL(file); // Read the file as a data URL
+    }
+  });
+}
 /******/ })()
 ;
