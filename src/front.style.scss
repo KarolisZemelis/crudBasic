@@ -123,6 +123,9 @@ body {
     display: block;
     position: relative;
   }
+  header {
+    justify-content: space-between;
+  }
   .off-screen-menu {
     background-color: black;
     height: 100vh;
