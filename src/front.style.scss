@@ -15,7 +15,7 @@ body {
   top: 0;
   left: 0;
   display: flex;
-  justify-content: space-between;
+  // justify-content: space-between;
   align-items: center;
   height: 5%;
   padding: 3rem 1.5rem 1rem 1.5rem;
@@ -23,19 +23,20 @@ body {
 }
 
 .header .logo {
-  font-size: 31px;
+  font-size: 2rem;
   font-weight: 700;
   color: white;
   cursor: pointer;
   text-decoration: none;
+  padding-bottom: 0.5rem;
 }
 
 .header .navbar a {
-  font-size: 17px;
+  font-size: 1rem;
   font-weight: 700;
   color: white;
   text-decoration: none;
-  margin-left: 37px;
+  margin-left: 3rem;
 }
 
 .header .navbar a:hover,
@@ -201,5 +202,28 @@ body {
     margin-top: 2rem;
     transform: translateY(-30px);
     min-width: 190px;
+  }
+}
+
+//listPage
+.listItemContainer {
+  width: 70%;
+  margin: auto;
+  margin-top: 7rem;
+
+  .card {
+    display: flex;
+    margin: 1rem;
+    background: white;
+    padding-left: 1.5rem;
+    .card-img-top {
+      width: 5rem;
+      height: 5rem;
+      margin: auto;
+    }
+    .card-body {
+      margin: 2rem;
+      width: 500px;
+    }
   }
 }

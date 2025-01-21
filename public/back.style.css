@@ -11978,6 +11978,11 @@ textarea.form-control-lg {
   text-decoration: none;
 }
 
+#navbarNavAltMarkup {
+  display: flex;
+  justify-content: space-between;
+}
+
 .formContainer {
   padding-top: 3rem;
   width: 80%;
@@ -12024,9 +12029,42 @@ textarea.form-control-lg {
 }
 
 .btn-primary {
-  width: auto;
+  width: 10rem;
   margin: 2rem auto 2rem;
   background-color: #00b59b;
   padding: 0.75rem 2.5rem;
   border: none;
+}
+
+.listItemContainer {
+  width: 80%;
+  margin: auto;
+  margin-top: 7rem;
+}
+.listItemContainer .card {
+  display: flex;
+  flex-direction: row;
+  margin: 1rem;
+  background: white;
+  padding: 2rem;
+}
+.listItemContainer .card .card-img-top {
+  width: 5rem;
+  height: 5rem;
+  margin: auto;
+}
+.listItemContainer .card .card-body {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+.listItemContainer .card .btn-box {
+  margin-right: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1.5rem;
+}
+.listItemContainer .card .btn-box a.btn.btn-primary {
+  margin: 0;
 }

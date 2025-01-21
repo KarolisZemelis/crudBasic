@@ -30,18 +30,6 @@ const storage = multer.diskStorage({
     }
 });
 
-// const storage = multer.diskStorage({
-//     destination: function (req, file, cb) {
-//         cb(null, './public/images/');
-//     },
-//     filename: function (req, file, cb) {
-//         const randomName = uuidv4();
-//         const extension = file.originalname.split('.').pop();
-//         const filename = `${randomName}.${extension}`;
-//         cb(null, filename);
-//     }
-// });
-
 //HELPERS
 const makeHtml = (data, page, back = true) => {
     const dir = back ? "back" : "front";
@@ -185,7 +173,7 @@ app.get("/", (req, res) => {
     const data = {
         pageTitle: "CRUD basic",
         message: req.user.message || null,
-        mainPageData,
+        mainPageData
 
     }
 
@@ -193,6 +181,20 @@ app.get("/", (req, res) => {
     res.send(html);
 });
 
+
+app.get('/itemsList', (req, res) => {
+    let listPageData = fs.readFileSync('./data/listPage.json', 'utf8');
+    listPageData = JSON.parse(listPageData);
+
+    const data = {
+        pageTitle: "Items list",
+        message: req.user.message || null,
+        listPageData,
+
+    }
+    const html = makeHtml(data, "list", false);
+    res.send(html);
+})
 //ADMIN LOGIN
 app.get("/login", (req, res) => {
     const data = {
@@ -204,6 +206,7 @@ app.get("/login", (req, res) => {
     const html = makeHtml(data, "login", true);
     res.send(html);
 });
+
 //ADMIN LOGIN/LOGOUT
 app.post("/login", (req, res) => {
     const isLogout = req.query.hasOwnProperty('logout');
@@ -329,12 +332,13 @@ app.post("/admin/createListItem", upload.single('listImg'), (req, res) => {
     }
     const itemId = uuidv4();
     itemData = {
-        [itemId]: {
-            title,
-            text,
-            listImg: fileName,
-            imgPath: '/images/list/'
-        }
+
+        id: itemId,
+        title,
+        text,
+        listImg: fileName,
+        imgPath: '/images/list/'
+
     };
     listPageData.push(itemData)
     listPageData = JSON.stringify(listPageData);
@@ -345,6 +349,20 @@ app.post("/admin/createListItem", upload.single('listImg'), (req, res) => {
     res.redirect(URL + 'admin/dashboard');
 });
 
+app.get("/admin/itemList", (req, res) => {
+    let listPageData = fs.readFileSync('./data/listPage.json', 'utf8');
+    listPageData = JSON.parse(listPageData);
+
+    const data = {
+        pageTitle: "CRUD item list",
+        message: req.user.message || null,
+        user: req.user.user || null,
+        itemList: true,
+        listPageData
+    }
+    const html = makeHtml(data, "itemList", true);
+    res.send(html);
+});
 const port = 3003;
 app.listen(port, () => {
     console.log(`Serveris pasiruošęs ir laukia ant ${port} porto!`);

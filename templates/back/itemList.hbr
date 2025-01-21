@@ -6,6 +6,9 @@
         <h5 class="card-title">{{title}}</h5>
         <p class="card-text">{{text}}</p>
       </div>
+      <div class="btn-box">
+        <a href="admin/edit/{{id}}" class="btn btn-primary">Edit</a>
+        <a href="admin/delete/{{id}}" class="btn btn-primary">Delete</a></div>
     </div>
   {{/each}}
 </div>

@@ -27,14 +27,14 @@
         <a class="nav-link {{#if dashboard}} active {{/if}}" href="/admin/dashboard">Dashboard</a>
         <a class="nav-link {{#if createMain}} active {{/if}}" href="/admin/createMain">Create/Edit Main</a>
         <a class="nav-link {{#if createList}} active {{/if}}" href="/admin/createListItem">Create list item</a>
+        <a class="nav-link {{#if itemList}} active {{/if}}" href="/admin/itemList">View items</a>
 
-
-        {{#if user}}
+      </div>
+             {{#if user}}
         <form action="/login?logout" method="POST">
         <button type="submit" class="btn btn-danger">Logout</button>
         </form>
         {{/if}}
-      </div>
     </div>
   </div>
    {{/if}}

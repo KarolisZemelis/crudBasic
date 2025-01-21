@@ -11,6 +11,11 @@
   text-decoration: none;
 }
 
+#navbarNavAltMarkup {
+  display: flex;
+  justify-content: space-between;
+}
+
 // create/edit main and create list/edit list items
 .formContainer {
   padding-top: 3rem;
@@ -61,9 +66,44 @@
 }
 
 .btn-primary {
-  width: auto;
+  width: 10rem;
   margin: 2rem auto 2rem;
   background-color: #00b59b;
   padding: 0.75rem 2.5rem;
   border: none;
+}
+
+//listPage
+.listItemContainer {
+  width: 80%;
+  margin: auto;
+  margin-top: 7rem;
+
+  .card {
+    display: flex;
+    flex-direction: row;
+    margin: 1rem;
+    background: white;
+    padding: 2rem;
+    .card-img-top {
+      width: 5rem;
+      height: 5rem;
+      margin: auto;
+    }
+    .card-body {
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+    }
+    .btn-box {
+      margin-right: 2rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 1.5rem;
+      a.btn.btn-primary {
+        margin: 0;
+      }
+    }
+  }
 }
