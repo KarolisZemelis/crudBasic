@@ -11,6 +11,12 @@
   text-decoration: none;
 }
 
+a.btn.btn-primary:hover {
+  background-color: white;
+  color: #00b59b;
+  border: 1px solid #00b59b;
+}
+
 // create/edit main and create list/edit list items
 .formContainer {
   padding-top: 3rem;
@@ -45,7 +51,7 @@
 .logo {
   font-size: 31px;
   font-weight: 700;
-  color: black;
+  color: white;
   cursor: pointer;
   text-decoration: none;
 }
@@ -106,9 +112,21 @@
   height: 10rem;
 }
 
-@media (max-width: 1024px) {
-  .btn-box {
-    a.btn.btn-primary {
+//item delete
+div.listItemContainer.delete {
+  width: 50%;
+  .card {
+    flex-direction: column;
+    .btn-box {
+      flex-direction: row;
+      margin: 0;
+      gap: 5rem;
+    }
+    button {
+      margin: 0;
+    }
+    button:hover {
+      background-color: red;
     }
   }
 }

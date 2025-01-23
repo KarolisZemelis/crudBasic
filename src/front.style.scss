@@ -110,6 +110,15 @@ body {
   background-color: transparent;
   color: #00b59b;
 }
+.card {
+  align-items: center;
+}
+div.listItemContainer .card .card-img-top {
+  margin: 0;
+}
+div.listItemContainer .card .card-body {
+  width: 100%;
+}
 
 /* MOBILUS MENIU */
 #mobile-menu {
