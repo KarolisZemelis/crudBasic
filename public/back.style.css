@@ -11978,6 +11978,12 @@ textarea.form-control-lg {
   text-decoration: none;
 }
 
+a.btn.btn-primary:hover {
+  background-color: white;
+  color: #00b59b;
+  border: 1px solid #00b59b;
+}
+
 .formContainer {
   padding-top: 3rem;
   width: 80%;
@@ -12008,7 +12014,7 @@ textarea.form-control-lg {
 .logo {
   font-size: 31px;
   font-weight: 700;
-  color: black;
+  color: white;
   cursor: pointer;
   text-decoration: none;
 }
@@ -12063,6 +12069,24 @@ textarea.form-control-lg {
 
 .card-text-edit {
   height: 10rem;
+}
+
+div.listItemContainer.delete {
+  width: 50%;
+}
+div.listItemContainer.delete .card {
+  flex-direction: column;
+}
+div.listItemContainer.delete .card .btn-box {
+  flex-direction: row;
+  margin: 0;
+  gap: 5rem;
+}
+div.listItemContainer.delete .card button {
+  margin: 0;
+}
+div.listItemContainer.delete .card button:hover {
+  background-color: red;
 }
 
 @media (min-width: 1024px) {

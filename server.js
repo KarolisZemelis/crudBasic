@@ -122,22 +122,6 @@ const oldDataMiddleWare = (req, res, next) => {
     next()
 };
 
-// const dynamicUploadMiddleware = (req, res, next) => {
-//     console.log('Before file upload:', req.body);  // Log the request body before file upload
-
-//     const fieldName = req.body.uploadType === 'banner' ? 'bannerImg' : 'listImg';
-
-//     // Use Multer only after processing the form data
-//     const uploadMiddleware = upload.single(fieldName);
-//     uploadMiddleware(req, res, (err) => {
-//         if (err) {
-//             return res.status(500).send('File upload failed');
-//         }
-
-//         console.log('After file upload:', req.body);  // Log the request body after file upload
-//         next();
-//     });
-// };
 //Image upload
 const upload = multer(
 
@@ -180,8 +164,6 @@ app.get("/", (req, res) => {
     const html = makeHtml(data, "landing", false);
     res.send(html);
 });
-
-
 app.get('/itemsList', (req, res) => {
     let listPageData = fs.readFileSync('./data/listPage.json', 'utf8');
     listPageData = JSON.parse(listPageData);
@@ -206,7 +188,6 @@ app.get("/login", (req, res) => {
     const html = makeHtml(data, "login", true);
     res.send(html);
 });
-
 //ADMIN LOGIN/LOGOUT
 app.post("/login", (req, res) => {
     const isLogout = req.query.hasOwnProperty('logout');
@@ -241,7 +222,7 @@ app.get("/admin/dashboard", (req, res) => {
     const html = makeHtml(data, "dashboard", true);
     res.send(html);
 });
-//CREATE MAIN
+
 app.get("/admin/createMain", (req, res) => {
     let mainPageData = fs.readFileSync('./data/mainPage.json', 'utf8');
     mainPageData = JSON.parse(mainPageData);
@@ -261,12 +242,12 @@ app.get("/admin/createMain", (req, res) => {
 app.post("/admin/createMain", upload.single('bannerImg'), (req, res) => {
     const { title, text } = req.body
     if (!title || !text) {
-        updateSession(req, 'message', { text: 'Užpildykite visus laukus', type: 'danger' });
+        updateSession(req, 'message', { text: 'Fill all the fields', type: 'danger' });
         res.redirect(URL + 'admin/createMain');
         return;
     }
     if (req.fileValidationError) {
-        updateSession(req, 'message', { text: 'Netinkamas paveiksliukas', type: 'danger' });
+        updateSession(req, 'message', { text: 'Uncompatable image', type: 'danger' });
         res.redirect(URL + 'admin/createMain');
         return;
     }
@@ -311,12 +292,12 @@ app.get("/admin/createListItem", (req, res) => {
 app.post("/admin/createListItem", upload.single('listImg'), (req, res) => {
     const { title, text } = req.body
     if (!title || !text) {
-        updateSession(req, 'message', { text: 'Užpildykite visus laukus', type: 'danger' });
+        updateSession(req, 'message', { text: 'Fill all the fields', type: 'danger' });
         res.redirect(URL + 'admin/createMain');
         return;
     }
     if (req.fileValidationError) {
-        updateSession(req, 'message', { text: 'Netinkamas paveiksliukas', type: 'danger' });
+        updateSession(req, 'message', { text: 'Uncompatable image', type: 'danger' });
         res.redirect(URL + 'admin/createMain');
         return;
     }
@@ -347,7 +328,7 @@ app.post("/admin/createListItem", upload.single('listImg'), (req, res) => {
 
     updateSession(req, 'message', { text: 'Save successful', type: 'success' });
 
-    res.redirect(URL + 'admin/dashboard');
+    res.redirect(URL + 'admin/itemList');
 });
 
 app.get("/admin/itemList", (req, res) => {
@@ -387,12 +368,12 @@ app.post("/admin/saveItemEdit/:id", upload.single('listImg'), (req, res) => {
     const { title, text } = req.body
     const itemId = req.params.id
     if (!title || !text) {
-        updateSession(req, 'message', { text: 'Užpildykite visus laukus', type: 'danger' });
+        updateSession(req, 'message', { text: 'Fill all the fields', type: 'danger' });
         res.redirect(URL + 'admin/createMain');
         return;
     }
     if (req.fileValidationError) {
-        updateSession(req, 'message', { text: 'Netinkamas paveiksliukas', type: 'danger' });
+        updateSession(req, 'message', { text: 'Uncompatable image', type: 'danger' });
         res.redirect(URL + 'admin/createMain');
         return;
     }
@@ -422,6 +403,42 @@ app.post("/admin/saveItemEdit/:id", upload.single('listImg'), (req, res) => {
     updateSession(req, 'message', { text: 'Save successful', type: 'success' });
 
     res.redirect(URL + 'admin/dashboard');
+});
+
+app.get("/admin/deleteItem/:id", (req, res) => {
+    const itemId = req.params.id
+
+    const data = {
+        pageTitle: "CRUD delete item",
+        message: req.user.message || null,
+        user: req.user.user || null,
+        noMenu: true,
+        itemId
+    }
+
+
+    const html = makeHtml(data, "delete", true);
+    res.send(html);
+});
+
+app.post("/admin/destroyItem/:id", (req, res) => {
+    const itemId = req.params.id
+    if (!itemId) {
+        updateSession(req, 'message', { text: 'Such ID does not exist please try again', type: 'danger' });
+        res.redirect(URL + '/admin/itemList');
+        return;
+    }
+
+    let listPageData = fs.readFileSync('./data/listPage.json', 'utf8');
+    listPageData = JSON.parse(listPageData);
+    fs.unlinkSync('./public/images/list/' + listPageData[itemId].listImg)
+    delete listPageData[itemId];
+    listPageData = JSON.stringify(listPageData);
+    fs.writeFileSync('./data/listPage.json', listPageData);
+
+    updateSession(req, 'message', { text: 'Deleted successfuly', type: 'success' });
+
+    res.redirect(URL + 'admin/itemList');
 });
 
 const port = 3003;

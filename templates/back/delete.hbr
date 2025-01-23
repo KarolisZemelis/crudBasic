@@ -1,0 +1,15 @@
+<form action="/admin/destroyItem/{{itemId}}" method="POST">
+  <div class="listItemContainer delete">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Delete {{itemId}}?</h5>
+        <p class="card-text">Do you really want to delete item id:{{itemId}}</p>
+      </div>
+      <div class="btn-box">
+        <button class="btn btn-primary">Delete</button>
+        <a href="/admin/itemList" class="btn btn-primary">Cancel</a>
+
+      </div>
+    </div>
+  </div>
+</form>

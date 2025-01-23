@@ -9,7 +9,7 @@
       <div class="btn-box">
         <a href="/admin/editItem/{{id}}" class="btn btn-primary">Edit</a>
         <a
-          href="admin/deleteitem/{{id}}"
+          href="/admin/deleteItem/{{id}}"
           class="btn btn-primary"
         >Delete</a></div>
     </div>
